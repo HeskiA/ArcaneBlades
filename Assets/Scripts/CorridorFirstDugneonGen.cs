@@ -18,7 +18,7 @@ public class CorridorFirstDugneonGen : SimpleRandomWalkMapGenerator
         HashSet<Vector2Int> floorPositions = new HashSet<Vector2Int>();
         HashSet<Vector2Int> potentialRoomPositions = new HashSet<Vector2Int>();
 
-        CreateCorridors(floorPositions, potentialRoomPositions);
+        List<List<Vector2Int>> corridors =  CreateCorridors(floorPositions, potentialRoomPositions);
         HashSet<Vector2Int> roomPos = CreateRooms(potentialRoomPositions);
         List<Vector2Int> deadEnds = FindAllDeadEnds(floorPositions);
         
@@ -27,8 +27,31 @@ public class CorridorFirstDugneonGen : SimpleRandomWalkMapGenerator
 
         floorPositions.UnionWith(roomPos);
 
+        for (int i = 0; i < corridors.Count;i++)
+        {
+            corridors[i] = IncreaseCorridorBrush3by3(corridors[i]);
+            floorPositions.UnionWith(corridors[i]);
+        }
+
         tileMapVisualizer.PaintFloorTiles(floorPositions);
         WallGenerator.CreateWalls(floorPositions, tileMapVisualizer);
+    }
+
+    private List<Vector2Int> IncreaseCorridorBrush3by3(List<Vector2Int> corridor)
+    {
+        List<Vector2Int> newCorridor = new List<Vector2Int>();
+
+        for (int i = 1;i < corridor.Count;i++)
+        {
+            for (int x = -1;x < 2; x++)
+            {
+                for (int y = -1; y < 2; y++)
+                {
+                    newCorridor.Add(corridor[i-1] + new Vector2Int(x,y));
+                }
+            }
+        }
+        return newCorridor;
     }
 
     private void CreateRoomsAtDeadEnd(List<Vector2Int> deadEnds, HashSet<Vector2Int> roomFloors)
@@ -77,17 +100,20 @@ public class CorridorFirstDugneonGen : SimpleRandomWalkMapGenerator
         return roomPositions;
     }
 
-    private void CreateCorridors(HashSet<Vector2Int> floorPositions, HashSet<Vector2Int> potentialRoomPositions)
+    private List<List<Vector2Int>> CreateCorridors(HashSet<Vector2Int> floorPositions, HashSet<Vector2Int> potentialRoomPositions)
     {
         var currentPos = startPosition;
         potentialRoomPositions.Add(currentPos);
+        List<List<Vector2Int>> corridors = new List<List<Vector2Int>>();
 
         for (int i = 0; i < corridorCount; i++) 
         {
             var corridor = ProceduralGenerationAlgorithms.RandomWalkCorridor(currentPos, corridorLenght);
+            corridors.Add(corridor);
             currentPos = corridor[corridor.Count - 1];
             potentialRoomPositions.Add(currentPos);
             floorPositions.UnionWith(corridor);
         }
+        return corridors;
     }
 }
