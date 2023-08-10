@@ -8,9 +8,50 @@ public static class WallGenerator
     public static void CreateWalls(HashSet<Vector2Int> floorPositions, TileMapVisualizer tileMapVisualizer)
     {
         var basicWallPositions = FindWallsInDirections(floorPositions, Direction2D.cardinalDirections);
-        foreach (var wall in basicWallPositions)
+        var cornerWallPositions = FindWallsInDirections(floorPositions, Direction2D.diagonalDirections);
+        CreateBasicWalls(tileMapVisualizer, basicWallPositions, floorPositions);
+        CreateCornerWalls(tileMapVisualizer, cornerWallPositions, floorPositions);
+    }
+
+    private static void CreateCornerWalls(TileMapVisualizer tileMapVisualizer, HashSet<Vector2Int> cornerWallPositions, HashSet<Vector2Int> floorPositions)
+    {
+        foreach (var position in cornerWallPositions) 
         {
-            tileMapVisualizer.paintSingleBasicWall(wall);
+            string neighboursBinary = "";
+            foreach (var direction in Direction2D.eightDirections)
+            {
+                var neighbourPos = position + direction;
+                if (floorPositions.Contains(neighbourPos))
+                {
+                    neighboursBinary += '1';
+                }
+                else
+                {
+                    neighboursBinary += '0';
+                }
+            }
+            tileMapVisualizer.paintSingleCornerWall(position, neighboursBinary);
+
+        }
+    }
+
+    private static void CreateBasicWalls(TileMapVisualizer tileMapVisualizer, HashSet<Vector2Int> basicWallPositions, HashSet<Vector2Int> floorPositions)
+    {
+        foreach (var position in basicWallPositions)
+        {
+            string neighboursBinary = "";
+            foreach (var direction in Direction2D.cardinalDirections)
+            {
+                var neighbourPos = position + direction;
+                if(floorPositions.Contains(neighbourPos))
+                {
+                    neighboursBinary += '1';
+                }else
+                {
+                    neighboursBinary += '0';
+                }
+            }
+            tileMapVisualizer.paintSingleBasicWall(position, neighboursBinary);
         }
     }
 
