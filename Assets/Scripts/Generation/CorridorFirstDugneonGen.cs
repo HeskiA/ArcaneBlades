@@ -74,7 +74,7 @@ public class CorridorFirstDugneonGen : SimpleRandomWalkMapGenerator
         {
             int neighboursCount = 0;
 
-            foreach (var direction in Direction2D.cardinalDirections) {
+            foreach (var direction in Direction2D.CardinalDirections) {
                 if(floorPositions.Contains(direction + pos)) {
                     neighboursCount++;
                 }

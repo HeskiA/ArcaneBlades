@@ -7,8 +7,8 @@ public static class WallGenerator
 {
     public static void CreateWalls(HashSet<Vector2Int> floorPositions, TileMapVisualizer tileMapVisualizer)
     {
-        var basicWallPositions = FindWallsInDirections(floorPositions, Direction2D.cardinalDirections);
-        var cornerWallPositions = FindWallsInDirections(floorPositions, Direction2D.diagonalDirections);
+        var basicWallPositions = FindWallsInDirections(floorPositions, Direction2D.CardinalDirections);
+        var cornerWallPositions = FindWallsInDirections(floorPositions, Direction2D.DiagonalDirections);
         CreateBasicWalls(tileMapVisualizer, basicWallPositions, floorPositions);
         CreateCornerWalls(tileMapVisualizer, cornerWallPositions, floorPositions);
     }
@@ -18,7 +18,7 @@ public static class WallGenerator
         foreach (var position in cornerWallPositions) 
         {
             string neighboursBinary = "";
-            foreach (var direction in Direction2D.eightDirections)
+            foreach (var direction in Direction2D.EightDirections)
             {
                 var neighbourPos = position + direction;
                 if (floorPositions.Contains(neighbourPos))
@@ -40,7 +40,7 @@ public static class WallGenerator
         foreach (var position in basicWallPositions)
         {
             string neighboursBinary = "";
-            foreach (var direction in Direction2D.cardinalDirections)
+            foreach (var direction in Direction2D.CardinalDirections)
             {
                 var neighbourPos = position + direction;
                 if(floorPositions.Contains(neighbourPos))

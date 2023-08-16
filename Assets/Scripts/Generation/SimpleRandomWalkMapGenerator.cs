@@ -28,7 +28,7 @@ public class SimpleRandomWalkMapGenerator : AbstractDungeonGenerator
 
         for (int i = 0; i < parameters.iterations; i++)
         {
-            var path = ProceduralGenerationAlgorithms.simpleRandomWalk(curentPositions, parameters.walkLenght);
+            var path = ProceduralGenerationAlgorithms.SimpleRandomWalk(curentPositions, parameters.walkLenght);
             floorPositions.UnionWith(path);
             if (parameters.startRandomlyEachIteration)
             {
