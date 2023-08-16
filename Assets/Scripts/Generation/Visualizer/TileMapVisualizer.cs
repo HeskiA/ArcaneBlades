@@ -60,6 +60,10 @@ public class TileMapVisualizer : MonoBehaviour
         {
             tile = wallBottom;
         }
+        else if (WallTypes.wallFull.Contains(typeAsInt))
+        {
+            tile = wallFull;
+        }
         if (tile!=null)
         {
             PaintSingleTile(wallTileMap,tile, position);
