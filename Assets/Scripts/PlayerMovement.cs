@@ -7,6 +7,7 @@ public class PlayerMovement : MonoBehaviour
 {
     private Rigidbody2D body;
     [SerializeField] private float speed;
+    [SerializeField] private CorridorFirstDugneonGen generator;
     private float horizontalAxis;
     private float verticalAxis;
     private bool escPressed;
@@ -15,6 +16,7 @@ public class PlayerMovement : MonoBehaviour
     {
         body = GetComponent<Rigidbody2D>();
         speed = 10;
+        generator.CorridorFirstGeneration();
     }
 
     private void Update()
@@ -27,9 +29,8 @@ public class PlayerMovement : MonoBehaviour
 
     void FixedUpdate()
     {
-        // left/right movement
         body.velocity = new Vector2(horizontalAxis * speed, verticalAxis * speed);
-        if(escPressed)
+        if (escPressed)
         {
             SceneManager.LoadScene(0);
         }

@@ -15,7 +15,7 @@ public class CorridorFirstDugneonGen : SimpleRandomWalkMapGenerator
         CorridorFirstGeneration();
     }
 
-    private void CorridorFirstGeneration()
+    public void CorridorFirstGeneration()
     {
         HashSet<Vector2Int> floorPositions = new HashSet<Vector2Int>();
         HashSet<Vector2Int> potentialRoomPositions = new HashSet<Vector2Int>();
