@@ -1,6 +1,7 @@
 //using System.Collections;
 //using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.SceneManagement;
 
 public class PlayerMovement : MonoBehaviour
 {
@@ -8,6 +9,7 @@ public class PlayerMovement : MonoBehaviour
     [SerializeField] private float speed;
     private float horizontalAxis;
     private float verticalAxis;
+    private bool escPressed;
 
     private void Awake()
     {
@@ -19,6 +21,7 @@ public class PlayerMovement : MonoBehaviour
     {
         horizontalAxis = Input.GetAxis("Horizontal");  // GetAxisRaw
         verticalAxis = Input.GetAxis("Vertical");  // GetAxisRaw
+        escPressed = Input.GetKey(KeyCode.Escape);
     }
 
 
@@ -26,6 +29,10 @@ public class PlayerMovement : MonoBehaviour
     {
         // left/right movement
         body.velocity = new Vector2(horizontalAxis * speed, verticalAxis * speed);
+        if(escPressed)
+        {
+            SceneManager.LoadScene(0);
+        }
         //body.AddForce(transform.right * horizontalAxis * speed);
 
     }
