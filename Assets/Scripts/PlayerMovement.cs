@@ -16,7 +16,9 @@ public class PlayerMovement : MonoBehaviour
     {
         body = GetComponent<Rigidbody2D>();
         speed = 10;
+        generator.clearMap();
         generator.CorridorFirstGeneration();
+        
     }
 
     private void Update()
