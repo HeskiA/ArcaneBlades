@@ -16,8 +16,13 @@ public class CorridorFirstDugneonGen : SimpleRandomWalkMapGenerator
     {
         CorridorFirstGeneration();
     }
+    
+    public void clearMap()
+    {
+        tileMapVisualizer.Clear();
+    }
 
-    private void CorridorFirstGeneration()
+    public void CorridorFirstGeneration()
     { 
         distancesDict.Clear();
         roomDict.Clear();
