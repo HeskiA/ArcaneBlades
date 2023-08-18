@@ -8,7 +8,9 @@ public class CorridorFirstDugneonGen : SimpleRandomWalkMapGenerator
 {
     [SerializeField] private int corridorLenght = 14, corridorCount = 5;
     [SerializeField] [Range(0.1f,1)] private float roomPercent = 0.8f;
-
+    public Dictionary<Vector2Int, int> distancesDict = new Dictionary<Vector2Int, int>();
+    public Dictionary<Vector2Int, HashSet<Vector2Int>> roomDict = new Dictionary<Vector2Int, HashSet<Vector2Int>>();
+    public GameObject enemyPrefab;
 
     protected override void RunProceduralGeneration()
     {
@@ -16,18 +18,17 @@ public class CorridorFirstDugneonGen : SimpleRandomWalkMapGenerator
     }
 
     private void CorridorFirstGeneration()
-    {
+    { 
+        distancesDict.Clear();
+        roomDict.Clear();
         HashSet<Vector2Int> floorPositions = new HashSet<Vector2Int>();
         HashSet<Vector2Int> potentialRoomPositions = new HashSet<Vector2Int>();
         List<Vector2Int> roomList = new List<Vector2Int>();
         List<List<Vector2Int>> corridors =  CreateCorridors(floorPositions, potentialRoomPositions);
-        HashSet<Vector2Int> roomPos = CreateRooms(potentialRoomPositions, roomList);
+        HashSet<Vector2Int> roomPos = CreateRooms(potentialRoomPositions, roomList, roomDict);
         List<Vector2Int> deadEnds = FindAllDeadEnds(floorPositions, roomList);
 
-        Dictionary<Vector2Int, int> distancesDict = new Dictionary<Vector2Int, int>();
-
-
-        CreateRoomsAtDeadEnd(deadEnds, roomPos);
+        CreateRoomsAtDeadEnd(deadEnds, roomPos, roomDict);
 
         floorPositions.UnionWith(roomPos);
 
@@ -41,10 +42,13 @@ public class CorridorFirstDugneonGen : SimpleRandomWalkMapGenerator
 
         CalculateDistancesFromOrigin(roomList, distancesDict);
 
+        Debug.Log("Corridor");
         foreach (var kvp in distancesDict)
         {
-            Debug.Log($"Distance from (0, 0) to ({kvp.Key.x}, {kvp.Key.y}): {kvp.Value}");
+            Debug.Log($"Position: ({kvp.Key.x}, {kvp.Key.y}), Distance: {kvp.Value}");
         }
+            EnemySpawning.myPrefab = enemyPrefab;
+        EnemySpawning.SpawnEnemies(distancesDict, roomDict);
     }
 
     private List<Vector2Int> IncreaseCorridorBrush3by3(List<Vector2Int> corridor)
@@ -64,7 +68,7 @@ public class CorridorFirstDugneonGen : SimpleRandomWalkMapGenerator
         return newCorridor;
     }
 
-    private void CreateRoomsAtDeadEnd(List<Vector2Int> deadEnds, HashSet<Vector2Int> roomFloors)
+    private void CreateRoomsAtDeadEnd(List<Vector2Int> deadEnds, HashSet<Vector2Int> roomFloors, Dictionary<Vector2Int, HashSet<Vector2Int>> roomDict)
     {
         foreach (var position in deadEnds)
         {
@@ -72,6 +76,7 @@ public class CorridorFirstDugneonGen : SimpleRandomWalkMapGenerator
             {
                 var room = RunRandomWalk(randomWalkParams, position);
                 roomFloors.UnionWith(room);
+                if(!roomDict.ContainsKey(position)) roomDict.Add(position, room);
  
             }
         }
@@ -98,7 +103,7 @@ public class CorridorFirstDugneonGen : SimpleRandomWalkMapGenerator
         return deadEnds;
     }
 
-    private HashSet<Vector2Int> CreateRooms(HashSet<Vector2Int> potentialRoomPositions, List<Vector2Int> roomList)
+    private HashSet<Vector2Int> CreateRooms(HashSet<Vector2Int> potentialRoomPositions, List<Vector2Int> roomList, Dictionary<Vector2Int, HashSet<Vector2Int>> roomDict)
     {
         HashSet<Vector2Int> roomPositions = new HashSet<Vector2Int>();
         int roomToCreateCount = Mathf.RoundToInt(potentialRoomPositions.Count * roomPercent);
@@ -109,6 +114,7 @@ public class CorridorFirstDugneonGen : SimpleRandomWalkMapGenerator
             var roomFloor = RunRandomWalk(randomWalkParams, roomPosition);
             roomPositions.UnionWith(roomFloor);
             roomList.Add(roomPosition);
+            if(!roomDict.ContainsKey(roomPosition)) roomDict.Add(roomPosition, roomFloor);
         }
         return roomPositions;
     }
