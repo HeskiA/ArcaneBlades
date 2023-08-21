@@ -5,13 +5,16 @@ using UnityEngine;
 public class EnemyBehavior : MonoBehaviour
 {
     private GameObject player;
+    //private PlayerMovement playerMovement;
     public float speed;
 
     public float distanceBetween;
     private float distance;
     void Start()
     {
+        
         player = GameObject.Find("Player");
+        //playerMovement = player.GetComponent<PlayerMovement>();
     }
 
 
@@ -32,4 +35,6 @@ public class EnemyBehavior : MonoBehaviour
 
         }
     }
+
+
 }
