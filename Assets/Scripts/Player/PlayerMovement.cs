@@ -19,10 +19,10 @@ public class PlayerMovement : MonoBehaviour
     {
         body = GetComponent<Rigidbody2D>();
         speed = 10;
-        health = 100;
+        health = 200;
         generator.clearMap();
         generator.CorridorFirstGeneration();
-        healthCounter.text = "Health: 100";
+        healthCounter.text = "Health: " + health;
         
     }
 
