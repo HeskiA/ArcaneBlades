@@ -45,3 +45,6 @@ TagManager:
   - name: Player
     uniqueID: 333381639
     locked: 0
+  - name: Energy
+    uniqueID: 3782353113
+    locked: 0

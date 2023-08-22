@@ -11,9 +11,11 @@ public class PlayerMovement : MonoBehaviour
     [SerializeField] private CorridorFirstDugneonGen generator;
     [SerializeField] private int health;
     [SerializeField] private TMP_Text healthCounter;
+    [SerializeField] private Animator animator;
     private float horizontalAxis;
     private float verticalAxis;
     private bool escPressed;
+    Vector2 mousePosition;
 
     private void Awake()
     {
@@ -30,6 +32,18 @@ public class PlayerMovement : MonoBehaviour
     {
         horizontalAxis = Input.GetAxis("Horizontal");  // GetAxisRaw
         verticalAxis = Input.GetAxis("Vertical");  // GetAxisRaw
+
+        mousePosition = Camera.main.ScreenToWorldPoint(Input.mousePosition);
+
+        if (mousePosition.x < transform.position.x)
+        {
+            transform.localRotation = Quaternion.Euler(0, 180, 0);
+        }
+        else
+        {
+            transform.localRotation = Quaternion.Euler(0, 0, 0);
+        }
+        animator.SetBool("running", horizontalAxis != 0 || verticalAxis != 0);
         escPressed = Input.GetKey(KeyCode.Escape);
         if(health<=0 )
         {
