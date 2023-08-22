@@ -35,14 +35,25 @@ public class PlayerMovement : MonoBehaviour
 
         mousePosition = Camera.main.ScreenToWorldPoint(Input.mousePosition);
 
-        if (mousePosition.x < transform.position.x)
+
+        if(horizontalAxis == 0)
         {
-            transform.localRotation = Quaternion.Euler(0, 180, 0);
+            if (mousePosition.x < transform.position.x)
+            {
+                transform.localRotation = Quaternion.Euler(0, 180, 0);
+            }
+            else
+            {
+                transform.localRotation = Quaternion.Euler(0, 0, 0);
+            }
         }
         else
         {
-            transform.localRotation = Quaternion.Euler(0, 0, 0);
+            if (horizontalAxis < 0) transform.localRotation = Quaternion.Euler(0, 180, 0);
+            else if (horizontalAxis > 0) transform.localRotation = Quaternion.Euler(0, 0, 0);
         }
+
+
         animator.SetBool("running", horizontalAxis != 0 || verticalAxis != 0);
         escPressed = Input.GetKey(KeyCode.Escape);
         if(health<=0 )
