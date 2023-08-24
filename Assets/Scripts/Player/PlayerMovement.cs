@@ -9,6 +9,7 @@ public class PlayerMovement : MonoBehaviour
     private Rigidbody2D body;
     [SerializeField] private float speed;
     [SerializeField] private CorridorFirstDugneonGen generator;
+    [SerializeField] private SimpleRandomWalkMapGenerator bossRoom;
     [SerializeField] private int health;
     [SerializeField] private TMP_Text healthCounter;
     [SerializeField] private Animator animator;
@@ -23,8 +24,12 @@ public class PlayerMovement : MonoBehaviour
         death.SetActive(false);
         speed = 10;
         health = 200;
-        generator.clearMap();
-        generator.CorridorFirstGeneration();
+        if (generator)
+        {
+            generator.clearMap();
+            generator.CorridorFirstGeneration();
+        }
+        
         healthCounter.text = "Health: " + health;
         
     }
