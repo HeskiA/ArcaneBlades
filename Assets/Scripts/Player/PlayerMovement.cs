@@ -15,10 +15,12 @@ public class PlayerMovement : MonoBehaviour
     private float horizontalAxis;
     private float verticalAxis;
     Vector2 mousePosition;
+    public GameObject death;
 
     private void Awake()
     {
         body = GetComponent<Rigidbody2D>();
+        death.SetActive(false);
         speed = 10;
         health = 200;
         generator.clearMap();
@@ -56,7 +58,9 @@ public class PlayerMovement : MonoBehaviour
         animator.SetBool("running", horizontalAxis != 0 || verticalAxis != 0);
         if(health<=0 )
         {
-            SceneManager.LoadScene(0);
+            Time.timeScale = 0f;
+            death.SetActive(true);
+            //SceneManager.LoadScene(0);
         }
     }
 
@@ -83,6 +87,8 @@ public class PlayerMovement : MonoBehaviour
     public void damagePlayer(int damage)
     {
         health -= damage;
+        if(health <= 0 )
+            health = 0;
         healthCounter.text = "Health: " + health;
     }
 

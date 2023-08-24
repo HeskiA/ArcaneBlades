@@ -36,6 +36,11 @@ public class UI : MonoBehaviour
         Time.timeScale = 1.0f;
     }
 
+    public void Retry()
+    {
+        SceneManager.LoadScene(1);
+    }
+
     public void ReturnToMain()
     {
         SceneManager.LoadScene(0);
