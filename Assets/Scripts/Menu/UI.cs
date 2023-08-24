@@ -10,6 +10,7 @@ public class UI : MonoBehaviour
     void Start()
     {
         pause.SetActive(false);
+        Time.timeScale = 1f;
     }
 
     // Update is called once per frame

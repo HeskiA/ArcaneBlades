@@ -59,7 +59,7 @@ public class Shooting : MonoBehaviour
     {
         float initialDistance = Vector2.Distance(energyClone.transform.position, firePoint.position);
 
-        while (Vector2.Distance(energyClone.transform.position, firePoint.position) - initialDistance <= distance)
+        while (energyClone != null && Vector2.Distance(energyClone.transform.position, firePoint.position) - initialDistance <= distance)
         {
             yield return null;
         }
