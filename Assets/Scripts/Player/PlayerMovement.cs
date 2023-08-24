@@ -14,7 +14,6 @@ public class PlayerMovement : MonoBehaviour
     [SerializeField] private Animator animator;
     private float horizontalAxis;
     private float verticalAxis;
-    private bool escPressed;
     Vector2 mousePosition;
 
     private void Awake()
@@ -55,7 +54,6 @@ public class PlayerMovement : MonoBehaviour
 
 
         animator.SetBool("running", horizontalAxis != 0 || verticalAxis != 0);
-        escPressed = Input.GetKey(KeyCode.Escape);
         if(health<=0 )
         {
             SceneManager.LoadScene(0);
@@ -66,10 +64,6 @@ public class PlayerMovement : MonoBehaviour
     void FixedUpdate()
     {
         body.velocity = new Vector2(horizontalAxis * speed, verticalAxis * speed);
-        if (escPressed)
-        {
-            SceneManager.LoadScene(0);
-        }
         //body.AddForce(transform.right * horizontalAxis * speed);
 
     }
