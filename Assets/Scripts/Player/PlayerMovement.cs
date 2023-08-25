@@ -81,6 +81,14 @@ public class PlayerMovement : MonoBehaviour
     {
         if(collision.collider.tag == "Enemy")
             damagePlayer(10);
+        else if(collision.collider.tag == "Fireball")
+        {
+            damagePlayer(20);
+        }
+        else if (collision.collider.tag == "BigFireBall")
+        {
+            damagePlayer(140);
+        }
     }
 
     private void OnCollisionStay2D(Collision2D collision)

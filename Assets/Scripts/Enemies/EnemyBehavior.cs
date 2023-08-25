@@ -20,7 +20,7 @@ public class EnemyBehavior : MonoBehaviour
 
     void Update()
     {
-        distance = Vector2.Distance(transform.position, player.transform.position);
+        //distance = Vector2.Distance(transform.position, player.transform.position);
         Vector2 direction = player.transform.position - transform.forward;
         direction.Normalize();
 

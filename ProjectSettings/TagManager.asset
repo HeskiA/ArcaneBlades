@@ -6,6 +6,8 @@ TagManager:
   tags:
   - Enemy
   - Energy
+  - Fireball
+  - BigFireBall
   layers:
   - Default
   - TransparentFX
@@ -13,8 +15,8 @@ TagManager:
   - Player
   - Water
   - UI
-  - 
-  - 
+  - FireBall
+  - Boss
   - 
   - 
   - 
