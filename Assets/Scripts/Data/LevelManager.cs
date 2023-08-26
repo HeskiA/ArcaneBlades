@@ -7,7 +7,7 @@ using UnityEngine.SceneManagement;
 public class LevelManager : MonoBehaviour
 {
     // Start is called before the first frame update
-    private static int level = 1;
+    public static int level = 1;
     public int finalLevel = 5;
     public static int score = 0;
     public static int scoreIncrement = 5;
@@ -57,6 +57,7 @@ public class LevelManager : MonoBehaviour
     {
         return level;
     }
+
 
     public float GetSpeed()
     {

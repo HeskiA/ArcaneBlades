@@ -38,11 +38,15 @@ public class UI : MonoBehaviour
 
     public void Retry()
     {
+        LevelManager.score = 0;
+        LevelManager.level = 0;
         SceneManager.LoadScene(1);
     }
 
     public void ReturnToMain()
     {
+        LevelManager.score = 0;
+        LevelManager.level = 0;
         SceneManager.LoadScene(0);
     }
 }
