@@ -2,11 +2,13 @@ using System.Collections;
 using System.Collections.Generic;
 using TMPro;
 using UnityEngine;
+using UnityEngine.SceneManagement;
 
 public class LevelManager : MonoBehaviour
 {
     // Start is called before the first frame update
     private static int level = 1;
+    public int finalLevel = 5;
 
     public static string levelString = "Level: ";
     public float addEnemySpeedOnLevelUp = 1f;
@@ -29,9 +31,17 @@ public class LevelManager : MonoBehaviour
     public void IncrementLevel()
     {
         level++;
-        levelTxt.text = levelString + level;
-        enemySpeed += addEnemySpeedOnLevelUp;
-        enemyDamage += addEnemyDamageOnLevelUp;
+        if (level == finalLevel)
+        {
+            SceneManager.LoadScene(2);
+        }
+        else
+        {
+            levelTxt.text = levelString + level;
+            enemySpeed += addEnemySpeedOnLevelUp;
+            enemyDamage += addEnemyDamageOnLevelUp;
+        }
+
     }
 
     public int GetLevel()
