@@ -1,11 +1,13 @@
 using System.Collections;
 using System.Collections.Generic;
+using TMPro;
 using UnityEngine;
 
 public class BossLogic : MonoBehaviour
 {
     [SerializeField] public GameObject fireball;
     public GameObject winMenu;
+    public TMP_Text scoreText;
     public Material blackFire;
     public Material blackSmoke;
     public GameObject player;
@@ -49,6 +51,7 @@ public class BossLogic : MonoBehaviour
             Destroy(gameObject);
             Time.timeScale = 0f;
             winMenu.SetActive(true);
+            scoreText.text += " " + LevelManager.score;
         }
 
         if (bossHealth <= 125 && bossHealth >= 60 && !phaseTwo) 
