@@ -22,7 +22,10 @@ public class FireBall : MonoBehaviour
         if(gameObject.tag == "BigFireBall")
         {
            
-           
+           if(transform.GetComponent<SpriteRenderer>().color == Color.blue)
+            {
+                speed = 14f;
+            }
             transform.position = Vector2.MoveTowards(this.transform.position, player.transform.position, speed * Time.deltaTime);
 
         } 

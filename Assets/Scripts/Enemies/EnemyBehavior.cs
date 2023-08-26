@@ -20,15 +20,13 @@ public class EnemyBehavior : MonoBehaviour
 
     void Update()
     {
-        //distance = Vector2.Distance(transform.position, player.transform.position);
+        distance = Vector2.Distance(transform.position, player.transform.position);
         Vector2 direction = player.transform.position - transform.forward;
         direction.Normalize();
 
 
-        
         if(distance < distanceBetween && distance > 0.5) 
         {
-            Debug.Log(direction.x);
             animator.SetBool("SeePlayer", true);
             
             transform.position = Vector2.MoveTowards(this.transform.position, player.transform.position, speed * Time.deltaTime);

@@ -1,12 +1,14 @@
 using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
+using System.Security.Cryptography;
 using UnityEngine;
 
 public class EnemySpawning : MonoBehaviour
 {
     public static GameObject myPrefab;
     private static string enemyTag = "Enemy";
+    public static Sprite nextLevelSprite;
 
     public static void SpawnEnemies(Dictionary<Vector2Int, int> distancesDict,Dictionary<Vector2Int, HashSet<Vector2Int>> roomDict) 
     {
@@ -43,12 +45,36 @@ public class EnemySpawning : MonoBehaviour
                 Vector2Int randomValue = roomToSpawnIn.ElementAt(randomIndex);
 
                 selectedValues.Add(randomValue);
-                //Debug.Log(randomValue);
                 Instantiate(myPrefab, new Vector3(randomValue.x+0.5f, randomValue.y+0.5f, 0), Quaternion.identity);
                 roomToSpawnIn.Remove(randomValue);
             }
             iterator++; 
         }
 
+
+        GameObject spriteObject = new GameObject("NextLevel");
+        spriteObject.transform.position = (Vector2)lastItem.Key;
+        spriteObject.transform.position = new Vector2(spriteObject.transform.position.x + 0.5f, spriteObject.transform.position.y + 0.5f);
+        SpriteRenderer spriteRenderer = spriteObject.AddComponent<SpriteRenderer>();
+        Debug.Log(spriteRenderer.sprite);
+        spriteRenderer.sprite = nextLevelSprite;
+        Debug.Log(nextLevelSprite);
+        Debug.Log(spriteRenderer.sprite);
+        spriteRenderer.sortingLayerName = "Player";
+        spriteRenderer.sortingOrder = 1;
+        spriteRenderer.color = HexToColor("#565563");
+
+
+        BoxCollider2D boxCollider = spriteObject.AddComponent<BoxCollider2D>();
+        boxCollider.size = new Vector2(1f, 1f);
+        boxCollider.offset = new Vector2(0f, 0f);
+    }
+
+
+    private static Color HexToColor(string hex)
+    {
+        Color newColor = Color.white;
+        ColorUtility.TryParseHtmlString(hex, out newColor);
+        return newColor;
     }
 }

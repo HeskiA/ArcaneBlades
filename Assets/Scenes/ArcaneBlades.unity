@@ -366,6 +366,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   speed: 0
   generator: {fileID: 1015080518}
+  bossRoom: {fileID: 0}
   health: 0
   healthCounter: {fileID: 806568929}
   animator: {fileID: 300046055}
@@ -1444,6 +1445,7 @@ MonoBehaviour:
   corridorCount: 20
   roomPercent: 0.873
   enemyPrefab: {fileID: 2331650192908954697, guid: 0c0bddd1c93d2914fa0044bab1387448, type: 3}
+  nextLevelSprite: {fileID: 9119029785525494671, guid: a0d3fbbc155eb404a87f827b40a48dfe, type: 3}
 --- !u!4 &1015080519
 Transform:
   m_ObjectHideFlags: 0

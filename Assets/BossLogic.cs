@@ -5,6 +5,8 @@ using UnityEngine;
 public class BossLogic : MonoBehaviour
 {
     [SerializeField] public GameObject fireball;
+    public Material blackFire;
+    public Material blackSmoke;
     public GameObject player;
     public Transform fireballSpawnPoint;
     private Animator animator;
@@ -14,15 +16,14 @@ public class BossLogic : MonoBehaviour
     public int maxHealth = 250;
     public bool phaseTwo = false;
     public bool phaseThree = false;
-    private bool inDestructible = false;
-    private Coroutine attackSequenceCoroutine;
     private SpriteRenderer spriteRenderer;
+    public float moveSpeed = 1.0f;
     void Start()
     {
         animator = GetComponent<Animator>();
         if(bossHealth == maxHealth && !phaseTwo && !phaseThree)
         {
-            InvokeRepeating("Attack1Animation", 5.0f, 5.0f);
+            InvokeRepeating("Attack1Animation", 2.0f, 3.0f);
         }
         
     }
@@ -30,12 +31,28 @@ public class BossLogic : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
+        Vector2 playerDirection = (Vector2)player.transform.position - (Vector2)transform.position;
+        playerDirection.Normalize();
+
+        if (phaseThree)
+        {
+            moveSpeed = 2f;
+        }
+
+        Vector2 newPosition = (Vector2)transform.position + playerDirection * moveSpeed * Time.deltaTime;
+        transform.position = newPosition;
+        if(bossHealth <= 0 )
+        {
+            bossHealth = 0;
+            Destroy(gameObject);
+        }
+
         if (bossHealth <= 125 && bossHealth >= 60 && !phaseTwo) 
         {
             phaseTwo = true;
             CancelInvoke("Attack1Animation");
             
-            InvokeRepeating("Attack2Animation", 2.0f, 2.0f);
+            InvokeRepeating("Attack2Animation", 1.0f, 2.0f);
         }
         
         else if(bossHealth < 60 && !phaseThree)
@@ -43,7 +60,7 @@ public class BossLogic : MonoBehaviour
             phaseThree = true;
             animator.SetBool("Phase3", true);
             CancelInvoke("Attack2Animation");
-            attackSequenceCoroutine = StartCoroutine(AttackSequence());
+            StartCoroutine(AttackSequence());
 
         }
     }
@@ -58,6 +75,14 @@ public class BossLogic : MonoBehaviour
         animator.SetTrigger("attack02");
     }
 
+    private void OnCollisionEnter2D(Collision2D collision)
+    {
+        if (collision.collider.tag == "Energy")
+        {
+            Destroy(collision.collider.gameObject);
+            bossHealth -= 50;
+        }
+    }
 
     public void AttackOne()
     {
@@ -70,6 +95,11 @@ public class BossLogic : MonoBehaviour
             Vector3 spawnPosition = (Vector2)fireballSpawnPoint.position + direction * spawnDistance;
 
             GameObject fireballClone = Instantiate(fireball, spawnPosition, Quaternion.identity);
+            if (phaseThree)
+            {
+                fireballClone.transform.GetComponent<SpriteRenderer>().color = Color.blue;
+                fireballSpeed = 7.0f;
+            }
             Physics2D.IgnoreCollision(fireballClone.GetComponent<Collider2D>(), transform.GetComponent<Collider2D>());
 
             
@@ -85,6 +115,10 @@ public class BossLogic : MonoBehaviour
         Vector3 spawnPosition = (Vector2)fireballSpawnPoint.position;
 
         GameObject fireballClone = Instantiate(fireball, spawnPosition, Quaternion.identity);
+        if (phaseThree)
+        {
+            fireballClone.transform.GetComponent<SpriteRenderer>().color = Color.blue;
+        }
         fireballClone.tag = "BigFireBall";
         fireballClone.transform.localScale = new Vector3(fireballClone.transform.localScale.x*2, fireballClone.transform.localScale.y * 2, 1.0f);
         Physics2D.IgnoreCollision(fireballClone.GetComponent<Collider2D>(), transform.GetComponent<Collider2D>());
@@ -92,10 +126,9 @@ public class BossLogic : MonoBehaviour
 
     private IEnumerator AttackSequence()
     {
-        inDestructible = true;
         ChangeColor();
         yield return new WaitForSeconds(2.0f);
-        inDestructible = false;
+
         while (true)
         {
             Attack1Animation();
@@ -107,43 +140,16 @@ public class BossLogic : MonoBehaviour
 
 
     public void ChangeColor()
-    {
-
-        Transform body = transform.GetChild(0);
-
-        Transform eye = body.GetChild(0);
-        Transform eye_Shiny = body.GetChild(1);
-        Transform r_leg = body.GetChild(3);
-        Transform l_leg = body.GetChild(4);
-        Transform r_arm = body.GetChild(5);
-        Transform l_arm = body.GetChild(6);
-
-        Transform r_hand = r_arm.GetChild(0);
-        Transform l_hand = l_arm.GetChild(0);
-
-        spriteRenderer = body.GetComponent<SpriteRenderer>();
-        spriteRenderer.material.color = new Color(0x00 / 255f, 0x18 / 255f, 0xFF / 255f);
-
-        spriteRenderer = r_leg.GetComponent<SpriteRenderer>();
-        spriteRenderer.material.color = new Color(0x00 / 255f, 0x18 / 255f, 0xFF / 255f);
-        spriteRenderer = l_leg.GetComponent<SpriteRenderer>();
-        spriteRenderer.material.color = new Color(0x00 / 255f, 0x18 / 255f, 0xFF / 255f);
-        spriteRenderer = r_arm.GetComponent<SpriteRenderer>();
-        spriteRenderer.material.color = new Color(0x00 / 255f, 0x18 / 255f, 0xFF / 255f);
-        spriteRenderer = l_arm.GetComponent<SpriteRenderer>();
-        spriteRenderer.material.color = new Color(0x00 / 255f, 0x18 / 255f, 0xFF / 255f);
-        spriteRenderer = eye.GetComponent<SpriteRenderer>();
-        spriteRenderer.material.color = new Color(0x00 / 255f, 0xDD / 255f, 0xFD / 255f);
-
+    { 
+        Transform r_hand = transform.GetChild(0).GetChild(5).GetChild(0);
+        Transform vfx = transform.GetChild(2);
+        Transform fire = r_hand.transform.GetChild(1);
 
         spriteRenderer = r_hand.GetComponent<SpriteRenderer>();
-        spriteRenderer.material.color = new Color(0x00 / 255f, 0x83 / 255f, 0xFF / 255f);
+        spriteRenderer.material.color = new Color(0x00 / 255f, 0x01 / 255f, 0x9A / 255f);
 
-        spriteRenderer = l_hand.GetComponent<SpriteRenderer>();
-        spriteRenderer.material.color = new Color(0x00 / 255f, 0x83 / 255f, 0xFF / 255f);
 
+        fire.GetComponent<ParticleSystemRenderer>().material = blackFire;
+        vfx.GetComponent<ParticleSystemRenderer>().material = blackSmoke;
     }
 }
-
-
-
