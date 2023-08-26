@@ -11,7 +11,7 @@ public class CorridorFirstDugneonGen : SimpleRandomWalkMapGenerator
     public Dictionary<Vector2Int, int> distancesDict = new Dictionary<Vector2Int, int>();
     public Dictionary<Vector2Int, HashSet<Vector2Int>> roomDict = new Dictionary<Vector2Int, HashSet<Vector2Int>>();
     public GameObject enemyPrefab;
-    public Sprite nextLevelSprite;
+    public GameObject nextLevelPrefab;
     protected override void RunProceduralGeneration()
     {
         CorridorFirstGeneration();
@@ -47,7 +47,7 @@ public class CorridorFirstDugneonGen : SimpleRandomWalkMapGenerator
 
         CalculateDistancesFromOrigin(roomList, distancesDict);
 
-        EnemySpawning.nextLevelSprite = nextLevelSprite;
+        EnemySpawning.nextLevelPrefab = nextLevelPrefab;
         EnemySpawning.myPrefab = enemyPrefab;
         EnemySpawning.SpawnEnemies(distancesDict, roomDict);
     }
