@@ -1,5 +1,6 @@
 //using System.Collections;
 //using System.Collections.Generic;
+using System.Collections;
 using TMPro;
 using UnityEngine;
 using UnityEngine.SceneManagement;
@@ -17,11 +18,13 @@ public class PlayerMovement : MonoBehaviour
     private float verticalAxis;
     Vector2 mousePosition;
     public GameObject death;
+    public GameObject nextLevelPanel;
 
     private void Awake()
     {
         body = GetComponent<Rigidbody2D>();
         death.SetActive(false);
+        nextLevelPanel.SetActive(false);
         speed = 10;
         health = 200;
         if (generator)
@@ -65,7 +68,6 @@ public class PlayerMovement : MonoBehaviour
         {
             Time.timeScale = 0f;
             death.SetActive(true);
-            //SceneManager.LoadScene(0);
         }
     }
 
@@ -91,8 +93,7 @@ public class PlayerMovement : MonoBehaviour
         }
         else if(collision.collider.tag == "NextLevel")
         {
-            //Debug.Log("nextlevel");
-            goToNextLevel();
+            StartCoroutine(goToNextLevel(3f));
         }
     }
 
@@ -115,8 +116,13 @@ public class PlayerMovement : MonoBehaviour
         return health;
     }
 
-    public void goToNextLevel()
+    IEnumerator goToNextLevel(float delay)
     {
+        nextLevelPanel.SetActive(true);
+        Time.timeScale = 0f;
+        yield return new WaitForSecondsRealtime(delay);
+        nextLevelPanel.SetActive(false);
+        Time.timeScale = 1f;
         generator.clearMap();
         generator.CorridorFirstGeneration();
         transform.position = new Vector3(0, 0, 0);
