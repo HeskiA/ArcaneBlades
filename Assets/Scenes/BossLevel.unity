@@ -364,13 +364,15 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: a16b5017f44c9594da8569c53319e31b, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  speed: 0
+  speed: 2
   generator: {fileID: 0}
   bossRoom: {fileID: 0}
   health: 0
   healthCounter: {fileID: 806568929}
   animator: {fileID: 300046055}
+  levelManager: {fileID: 0}
   death: {fileID: 502423597}
+  nextLevelPanel: {fileID: 0}
 --- !u!212 &300046053
 SpriteRenderer:
   m_ObjectHideFlags: 0
@@ -31007,6 +31009,7 @@ MonoBehaviour:
   maxHealth: 250
   phaseTwo: 0
   phaseThree: 0
+  moveSpeed: 1
 --- !u!4 &2083824489 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: 1873030402443433276, guid: 332b21a684312b34798ace98affe4eed, type: 3}
@@ -31072,6 +31075,10 @@ PrefabInstance:
       propertyPath: death
       value: 
       objectReference: {fileID: 502423597}
+    - target: {fileID: 3962483957709202148, guid: 5d1277e1ac61d7940a19a4e6cbbaed88, type: 3}
+      propertyPath: speed
+      value: 2
+      objectReference: {fileID: 0}
     - target: {fileID: 3962483957709202148, guid: 5d1277e1ac61d7940a19a4e6cbbaed88, type: 3}
       propertyPath: healthCounter
       value: 

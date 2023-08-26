@@ -16,10 +16,14 @@ public class LevelManager : MonoBehaviour
     public int enemyDamage = 10;
     public int addEnemyDamageOnLevelUp = 10;
 
+    private float enemySpeedDefault;
+    private int enemyDamageDefault;
     [SerializeField] public TMP_Text levelTxt;
     void Start()
     {
         levelTxt.text = levelString + level;
+        enemySpeedDefault = enemySpeed;
+        enemyDamageDefault = enemyDamage;
     }
 
     // Update is called once per frame
@@ -57,5 +61,12 @@ public class LevelManager : MonoBehaviour
     public int GetDamage()
     {
         return enemyDamage;
+    }
+
+    public void OnDeath()
+    {
+        level = 1;
+        enemySpeed = enemySpeedDefault;
+        enemyDamage = enemyDamageDefault;
     }
 }

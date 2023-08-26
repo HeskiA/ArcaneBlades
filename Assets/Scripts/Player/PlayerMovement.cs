@@ -10,7 +10,6 @@ public class PlayerMovement : MonoBehaviour
     private Rigidbody2D body;
     [SerializeField] private float speed;
     [SerializeField] private CorridorFirstDugneonGen generator;
-    [SerializeField] private SimpleRandomWalkMapGenerator bossRoom;
     [SerializeField] private int health;
     [SerializeField] private TMP_Text healthCounter;
     [SerializeField] private Animator animator;
@@ -24,8 +23,12 @@ public class PlayerMovement : MonoBehaviour
     private void Awake()
     {
         body = GetComponent<Rigidbody2D>();
-        death.SetActive(false);
-        nextLevelPanel.SetActive(false);
+        if(death)
+            death.SetActive(false);
+
+        if(nextLevelPanel)
+            nextLevelPanel.SetActive(false);
+
         speed = 10;
         health = 200;
         if (generator)
@@ -68,6 +71,7 @@ public class PlayerMovement : MonoBehaviour
         if(health<=0 )
         {
             Time.timeScale = 0f;
+            levelManager.OnDeath();
             death.SetActive(true);
         }
     }
