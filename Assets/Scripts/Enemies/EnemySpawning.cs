@@ -17,7 +17,8 @@ public class EnemySpawning : MonoBehaviour
 
         foreach (GameObject enemy in existingEnemies)
         {
-            DestroyImmediate(enemy);
+            //DestroyImmediate(enemy);
+            Destroy(enemy);
         }
         var sortedItems = distancesDict.ToList();
         sortedItems.Sort((pair1, pair2) => pair1.Value.CompareTo(pair2.Value));
@@ -55,11 +56,4 @@ public class EnemySpawning : MonoBehaviour
         Instantiate(nextLevelPrefab, new Vector3(lastItem.Key.x + 0.5f, lastItem.Key.y + 0.5f, 0), Quaternion.identity);
     }
 
-
-    private static Color HexToColor(string hex)
-    {
-        Color newColor = Color.white;
-        ColorUtility.TryParseHtmlString(hex, out newColor);
-        return newColor;
-    }
 }

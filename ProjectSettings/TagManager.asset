@@ -8,6 +8,7 @@ TagManager:
   - Energy
   - Fireball
   - BigFireBall
+  - NextLevel
   layers:
   - Default
   - TransparentFX

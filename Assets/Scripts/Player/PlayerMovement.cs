@@ -89,6 +89,11 @@ public class PlayerMovement : MonoBehaviour
         {
             damagePlayer(140);
         }
+        else if(collision.collider.tag == "NextLevel")
+        {
+            //Debug.Log("nextlevel");
+            goToNextLevel();
+        }
     }
 
     private void OnCollisionStay2D(Collision2D collision)
@@ -108,6 +113,13 @@ public class PlayerMovement : MonoBehaviour
     public int getHealth()
     {
         return health;
+    }
+
+    public void goToNextLevel()
+    {
+        generator.clearMap();
+        generator.CorridorFirstGeneration();
+        transform.position = new Vector3(0, 0, 0);
     }
 
 
