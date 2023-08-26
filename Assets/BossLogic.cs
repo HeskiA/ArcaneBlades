@@ -5,6 +5,7 @@ using UnityEngine;
 public class BossLogic : MonoBehaviour
 {
     [SerializeField] public GameObject fireball;
+    public GameObject winMenu;
     public Material blackFire;
     public Material blackSmoke;
     public GameObject player;
@@ -20,6 +21,7 @@ public class BossLogic : MonoBehaviour
     public float moveSpeed = 1.0f;
     void Start()
     {
+        winMenu.SetActive(false);
         animator = GetComponent<Animator>();
         if(bossHealth == maxHealth && !phaseTwo && !phaseThree)
         {
@@ -45,6 +47,8 @@ public class BossLogic : MonoBehaviour
         {
             bossHealth = 0;
             Destroy(gameObject);
+            Time.timeScale = 0f;
+            winMenu.SetActive(true);
         }
 
         if (bossHealth <= 125 && bossHealth >= 60 && !phaseTwo) 
