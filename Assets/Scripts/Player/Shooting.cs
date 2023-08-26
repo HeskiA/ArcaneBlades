@@ -5,6 +5,7 @@ using UnityEngine;
 public class Shooting : MonoBehaviour
 {
     [SerializeField] private Animator animator;
+    private AudioSource audioSource;
     public GameObject energy;
     public Transform firePoint;
     public float energySpeed = 20;
@@ -17,6 +18,11 @@ public class Shooting : MonoBehaviour
     Vector2 lookDirection;
     float lookAngle;
     bool canShoot = true;
+
+    private void Start()
+    {
+        audioSource = GetComponent<AudioSource>();
+    }
 
     public void Update()
     {
@@ -38,6 +44,7 @@ public class Shooting : MonoBehaviour
         if (Input.GetMouseButtonDown(0) && canShoot)
         {
             StartCoroutine(ShootWithDelay());
+            audioSource.Play();
         }
     }
 
