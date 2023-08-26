@@ -5,6 +5,7 @@ using UnityEngine;
 public class EnemyBehavior : MonoBehaviour
 {
     private GameObject player;
+    private AudioSource audioSource;
     public float speed;
     Animator animator;
     private GameObject levelManager;
@@ -12,6 +13,11 @@ public class EnemyBehavior : MonoBehaviour
 
     public float distanceBetween;
     private float distance;
+
+    private void Awake()
+    {
+        audioSource = GetComponent<AudioSource>();
+    }
     void Start()
     {
         levelManager = GameObject.Find("LevelManager");
@@ -58,6 +64,7 @@ public class EnemyBehavior : MonoBehaviour
         if(collision.collider.tag == "Energy")
         {
             LevelManager.incrementScore();
+            audioSource.Play();
             Destroy(collision.collider.gameObject);
             Destroy(gameObject);
         }

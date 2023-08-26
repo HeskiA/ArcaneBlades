@@ -1848,7 +1848,7 @@ MonoBehaviour:
   corridorLenght: 15
   corridorCount: 20
   roomPercent: 0.873
-  enemyPrefab: {fileID: 607302084233254481, guid: 0c0bddd1c93d2914fa0044bab1387448, type: 3}
+  enemyPrefab: {fileID: 1205092859593225792, guid: 0c0bddd1c93d2914fa0044bab1387448, type: 3}
   nextLevelPrefab: {fileID: 5465308287344121160, guid: c392d05b918ae634ba640dbbdd195a66, type: 3}
 --- !u!4 &1015080519
 Transform:
