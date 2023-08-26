@@ -14,6 +14,7 @@ public class PlayerMovement : MonoBehaviour
     [SerializeField] private int health;
     [SerializeField] private TMP_Text healthCounter;
     [SerializeField] private Animator animator;
+    public LevelManager levelManager;
     private float horizontalAxis;
     private float verticalAxis;
     Vector2 mousePosition;
@@ -39,13 +40,13 @@ public class PlayerMovement : MonoBehaviour
 
     private void Update()
     {
-        horizontalAxis = Input.GetAxis("Horizontal");  // GetAxisRaw
-        verticalAxis = Input.GetAxis("Vertical");  // GetAxisRaw
+        horizontalAxis = Input.GetAxis("Horizontal");
+        verticalAxis = Input.GetAxis("Vertical");
 
         mousePosition = Camera.main.ScreenToWorldPoint(Input.mousePosition);
+        healthCounter.text = "Health: " + health;
 
-
-        if(horizontalAxis == 0)
+        if (horizontalAxis == 0)
         {
             if (mousePosition.x < transform.position.x)
             {
@@ -75,14 +76,12 @@ public class PlayerMovement : MonoBehaviour
     void FixedUpdate()
     {
         body.velocity = new Vector2(horizontalAxis * speed, verticalAxis * speed);
-        //body.AddForce(transform.right * horizontalAxis * speed);
-
     }
 
     private void OnCollisionEnter2D(Collision2D collision)
     {
         if(collision.collider.tag == "Enemy")
-            damagePlayer(10);
+            damagePlayer(levelManager.GetDamage());
         else if(collision.collider.tag == "Fireball")
         {
             damagePlayer(20);
@@ -108,7 +107,6 @@ public class PlayerMovement : MonoBehaviour
         health -= damage;
         if(health <= 0 )
             health = 0;
-        healthCounter.text = "Health: " + health;
     }
 
     public int getHealth()
@@ -122,11 +120,12 @@ public class PlayerMovement : MonoBehaviour
         Time.timeScale = 0f;
         yield return new WaitForSecondsRealtime(delay);
         nextLevelPanel.SetActive(false);
+        levelManager.IncrementLevel();
         Time.timeScale = 1f;
         generator.clearMap();
         generator.CorridorFirstGeneration();
+        if (health < 100)
+            health = 100;
         transform.position = new Vector3(0, 0, 0);
     }
-
-
 }

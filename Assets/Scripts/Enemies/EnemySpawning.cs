@@ -12,7 +12,6 @@ public class EnemySpawning : MonoBehaviour
 
     public static void SpawnEnemies(Dictionary<Vector2Int, int> distancesDict,Dictionary<Vector2Int, HashSet<Vector2Int>> roomDict) 
     {
-        
         GameObject[] existingEnemies = GameObject.FindGameObjectsWithTag(enemyTag);
 
         foreach (GameObject enemy in existingEnemies)

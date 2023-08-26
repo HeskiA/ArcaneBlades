@@ -7,11 +7,16 @@ public class EnemyBehavior : MonoBehaviour
     private GameObject player;
     public float speed;
     Animator animator;
+    private GameObject levelManager;
+    private LevelManager levelManagerObj;
 
     public float distanceBetween;
     private float distance;
     void Start()
-    {  
+    {
+        levelManager = GameObject.Find("LevelManager");
+        levelManagerObj = levelManager.GetComponent<LevelManager>();
+        speed = levelManagerObj.GetSpeed();
         animator = GetComponent<Animator>();
         
         player = GameObject.Find("Player");
