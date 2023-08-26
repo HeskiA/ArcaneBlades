@@ -57,6 +57,7 @@ public class EnemyBehavior : MonoBehaviour
     {
         if(collision.collider.tag == "Energy")
         {
+            LevelManager.incrementScore();
             Destroy(collision.collider.gameObject);
             Destroy(gameObject);
         }

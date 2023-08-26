@@ -9,8 +9,11 @@ public class LevelManager : MonoBehaviour
     // Start is called before the first frame update
     private static int level = 1;
     public int finalLevel = 5;
+    public static int score = 0;
+    public static int scoreIncrement = 5;
 
     public static string levelString = "Level: ";
+    public static string scoreString = "Score: ";
     public float addEnemySpeedOnLevelUp = 1f;
     public float enemySpeed = 2f;
     public int enemyDamage = 10;
@@ -19,9 +22,11 @@ public class LevelManager : MonoBehaviour
     private float enemySpeedDefault;
     private int enemyDamageDefault;
     [SerializeField] public TMP_Text levelTxt;
+    [SerializeField] public TMP_Text scoreTxt;
     void Start()
     {
         levelTxt.text = levelString + level;
+        scoreTxt.text = scoreString + score;
         enemySpeedDefault = enemySpeed;
         enemyDamageDefault = enemyDamage;
     }
@@ -29,7 +34,7 @@ public class LevelManager : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        
+        scoreTxt.text = scoreString + score;
     }
 
     public void IncrementLevel()
@@ -68,5 +73,10 @@ public class LevelManager : MonoBehaviour
         level = 1;
         enemySpeed = enemySpeedDefault;
         enemyDamage = enemyDamageDefault;
+    }
+
+    public static void incrementScore()
+    {
+        score += scoreIncrement * level;
     }
 }
