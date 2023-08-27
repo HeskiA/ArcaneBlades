@@ -88,11 +88,11 @@ public class PlayerMovement : MonoBehaviour
             damagePlayer(levelManager.GetDamage());
         else if(collision.collider.tag == "Fireball")
         {
-            damagePlayer(20);
+            //damagePlayer(20);
         }
         else if (collision.collider.tag == "BigFireBall")
         {
-            damagePlayer(140);
+            //damagePlayer(140);
         }
         else if(collision.collider.tag == "NextLevel")
         {

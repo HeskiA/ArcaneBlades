@@ -22,9 +22,13 @@ public class BossLogic : MonoBehaviour
     public bool phaseThree = false;
     private SpriteRenderer spriteRenderer;
     public float moveSpeed = 1.0f;
+
+    public BossHealthBar healthBar;
     void Start()
     {
         winMenu.SetActive(false);
+        bossHealth = maxHealth;
+        healthBar.SetMaxHeatlh(maxHealth);
         animator = GetComponent<Animator>();
         if(bossHealth == maxHealth && !phaseTwo && !phaseThree)
         {
@@ -100,7 +104,8 @@ public class BossLogic : MonoBehaviour
         if (collision.collider.tag == "Energy")
         {
             Destroy(collision.collider.gameObject);
-            bossHealth -= 50;
+            bossHealth -= 10;
+            healthBar.SetHealth(bossHealth);
         }
     }
 
