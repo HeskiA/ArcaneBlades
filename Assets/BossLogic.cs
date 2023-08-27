@@ -2,6 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using TMPro;
 using UnityEngine;
+using UnityEngine.XR;
 
 public class BossLogic : MonoBehaviour
 {
@@ -15,8 +16,8 @@ public class BossLogic : MonoBehaviour
     private Animator animator;
     public float fireballSpeed = 5f;
     public float spawnDistance = 1f;
-    public int bossHealth = 250;
-    public int maxHealth = 250;
+    public int bossHealth = 500;
+    public int maxHealth = 500;
     public bool phaseTwo = false;
     public bool phaseThree = false;
     private SpriteRenderer spriteRenderer;
@@ -37,6 +38,18 @@ public class BossLogic : MonoBehaviour
     {
         Vector2 playerDirection = (Vector2)player.transform.position - (Vector2)transform.position;
         playerDirection.Normalize();
+        Transform fire = transform.GetChild(0).GetChild(5).GetChild(0).transform.GetChild(1);
+        if (player.transform.position.x - transform.position.x > 0f)
+        {
+
+            transform.localRotation = Quaternion.Euler(0, 180, 0);
+            fire.localPosition = new Vector3(0, 0, 0.5f);
+        }
+        else
+        {
+            transform.localRotation = Quaternion.Euler(0, 0, 0);
+            fire.localPosition = Vector3.zero;
+        }
 
         if (phaseThree)
         {
@@ -54,7 +67,7 @@ public class BossLogic : MonoBehaviour
             scoreText.text += " " + LevelManager.score;
         }
 
-        if (bossHealth <= 125 && bossHealth >= 60 && !phaseTwo) 
+        if (bossHealth <= (maxHealth/2) && bossHealth >= (maxHealth/4) && !phaseTwo) 
         {
             phaseTwo = true;
             CancelInvoke("Attack1Animation");
@@ -62,7 +75,7 @@ public class BossLogic : MonoBehaviour
             InvokeRepeating("Attack2Animation", 1.0f, 2.0f);
         }
         
-        else if(bossHealth < 60 && !phaseThree)
+        else if(bossHealth < (maxHealth/4) && !phaseThree)
         {
             phaseThree = true;
             animator.SetBool("Phase3", true);
