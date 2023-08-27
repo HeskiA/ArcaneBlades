@@ -73,7 +73,8 @@ public class PlayerMovement : MonoBehaviour
         if(health<=0 )
         {
             Time.timeScale = 0f;
-            levelManager.OnDeath();
+            if(levelManager)
+                levelManager.OnDeath();
             death.SetActive(true);
         }
     }

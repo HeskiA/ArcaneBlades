@@ -26,6 +26,8 @@ public class LevelManager : MonoBehaviour
     [SerializeField] public TMP_Text scoreTxt;
     void Start()
     {
+        level = 1;
+        score = 0;
         enemySound = GetComponent<AudioSource>();
         levelTxt.text = levelString + level;
         scoreTxt.text = scoreString + score;
