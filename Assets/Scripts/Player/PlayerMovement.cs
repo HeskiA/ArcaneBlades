@@ -19,9 +19,11 @@ public class PlayerMovement : MonoBehaviour
     Vector2 mousePosition;
     public GameObject death;
     public GameObject nextLevelPanel;
+    private AudioSource audioSource;
 
     private void Awake()
     {
+        audioSource = GetComponent<AudioSource>();
         body = GetComponent<Rigidbody2D>();
         if(death)
             death.SetActive(false);
@@ -85,14 +87,22 @@ public class PlayerMovement : MonoBehaviour
     private void OnCollisionEnter2D(Collision2D collision)
     {
         if(collision.collider.tag == "Enemy")
+        {
             damagePlayer(levelManager.GetDamage());
+            audioSource.Play();
+            audioSource.loop = true;
+        }
+            
+
         else if(collision.collider.tag == "Fireball")
         {
-            //damagePlayer(20);
+            audioSource.Play();
+            damagePlayer(10);
         }
         else if (collision.collider.tag == "BigFireBall")
         {
-            //damagePlayer(140);
+            audioSource.Play();
+            damagePlayer(80);
         }
         else if(collision.collider.tag == "NextLevel")
         {
@@ -104,6 +114,15 @@ public class PlayerMovement : MonoBehaviour
     {
         if (collision.collider.tag == "Enemy")
             damagePlayer(1);
+    }
+    private void OnCollisionExit2D(Collision2D collision)
+    {
+        if (collision.collider.tag == "Enemy")
+        {
+            audioSource.loop = false;
+            audioSource.Stop();
+        }
+            
     }
 
     public void damagePlayer(int damage)

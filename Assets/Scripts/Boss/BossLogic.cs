@@ -7,6 +7,7 @@ using UnityEngine.XR;
 public class BossLogic : MonoBehaviour
 {
     [SerializeField] public GameObject fireball;
+    private AudioSource audioSource;
     public GameObject winMenu;
     public TMP_Text scoreText;
     public Material blackFire;
@@ -26,6 +27,7 @@ public class BossLogic : MonoBehaviour
     public BossHealthBar healthBar;
     void Start()
     {
+        audioSource = GetComponent<AudioSource>();
         winMenu.SetActive(false);
         bossHealth = maxHealth;
         healthBar.SetMaxHeatlh(maxHealth);
@@ -92,11 +94,13 @@ public class BossLogic : MonoBehaviour
     public void Attack1Animation()
     {
         animator.SetTrigger("attack");
+        audioSource.Play();
     }
 
     public void Attack2Animation()
     {
         animator.SetTrigger("attack02");
+        audioSource.Play();
     }
 
     private void OnCollisionEnter2D(Collision2D collision)
