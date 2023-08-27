@@ -21,10 +21,12 @@ public class LevelManager : MonoBehaviour
 
     private float enemySpeedDefault;
     private int enemyDamageDefault;
+    private static AudioSource enemySound;
     [SerializeField] public TMP_Text levelTxt;
     [SerializeField] public TMP_Text scoreTxt;
     void Start()
     {
+        enemySound = GetComponent<AudioSource>();
         levelTxt.text = levelString + level;
         scoreTxt.text = scoreString + score;
         enemySpeedDefault = enemySpeed;
@@ -79,5 +81,10 @@ public class LevelManager : MonoBehaviour
     public static void incrementScore()
     {
         score += scoreIncrement * level;
+    }
+
+    public static void enemyDeath()
+    {
+        enemySound.Play();
     }
 }
