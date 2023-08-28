@@ -3,16 +3,20 @@ using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
 using UnityEngine;
+using Random = UnityEngine.Random;
 
-public class CorridorFirstDugneonGen : SimpleRandomWalkMapGenerator
+public class CorridorFirstDugneonGen : MonoBehaviour
 {
+    [SerializeField] protected TileMapVisualizer tileMapVisualizer = null;
+    [SerializeField] protected Vector2Int startPosition = Vector2Int.zero;
+    [SerializeField] protected RandomWalkParams randomWalkParams;
     [SerializeField] private int corridorLenght = 14, corridorCount = 5;
     [SerializeField] [Range(0.1f,1)] private float roomPercent = 0.8f;
     public Dictionary<Vector2Int, int> distancesDict = new Dictionary<Vector2Int, int>();
     public Dictionary<Vector2Int, HashSet<Vector2Int>> roomDict = new Dictionary<Vector2Int, HashSet<Vector2Int>>();
     public GameObject enemyPrefab;
     public GameObject nextLevelPrefab;
-    protected override void RunProceduralGeneration()
+    protected void RunProceduralGeneration()
     {
         CorridorFirstGeneration();
     }
@@ -149,6 +153,23 @@ public class CorridorFirstDugneonGen : SimpleRandomWalkMapGenerator
                 distancesDict.Add(roomCenter, distance);
             }
         }
+    }
+
+    protected HashSet<Vector2Int> RunRandomWalk(RandomWalkParams parameters, Vector2Int position)
+    {
+        var curentPositions = position;
+        HashSet<Vector2Int> floorPositions = new HashSet<Vector2Int>();
+
+        for (int i = 0; i < parameters.iterations; i++)
+        {
+            var path = ProceduralGenerationAlgorithms.RandomWalk(curentPositions, parameters.walkLenght);
+            floorPositions.UnionWith(path);
+            if (parameters.startRandomlyEachIteration)
+            {
+                curentPositions = floorPositions.ElementAt(Random.Range(0, floorPositions.Count));
+            }
+        }
+        return floorPositions;
     }
 
 }

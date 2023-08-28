@@ -33,7 +33,7 @@ public class PlayerMovement : MonoBehaviour
 
         speed = 10;
         health = 200;
-        if (generator)
+        if (generator != null)
         {
             generator.clearMap();
             generator.CorridorFirstGeneration();
